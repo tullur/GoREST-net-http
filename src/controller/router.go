@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// HandleMovies -> GET
 func HandleMovies(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
@@ -16,6 +17,7 @@ func HandleMovies(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// HandleGetMovies -> movies handler
 func HandleGetMovies(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 
@@ -27,6 +29,7 @@ func HandleGetMovies(w http.ResponseWriter, r *http.Request) {
 	w.Write(movies)
 }
 
+// HandleMovie -> Router
 func HandleMovie(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
@@ -43,6 +46,7 @@ func HandleMovie(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// HandleGetMovie -> GET handler for movie
 func HandleGetMovie(w http.ResponseWriter, r *http.Request) {
 	movieID := strings.Replace(r.URL.Path, "/movie/", "", 1)
 
@@ -66,6 +70,7 @@ func HandleGetMovie(w http.ResponseWriter, r *http.Request) {
 	w.Write(movieIDjson)
 }
 
+// HandleAddMovie -> add handler
 func HandleAddMovie(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 
@@ -93,6 +98,7 @@ func HandleAddMovie(w http.ResponseWriter, r *http.Request) {
 	HandleGetMovies(w, r)
 }
 
+// HandleUpdateMovie -> update handler
 func HandleUpdateMovie(w http.ResponseWriter, r *http.Request) {
 	movieID := strings.Replace(r.URL.Path, "/movie/", "", 1)
 
@@ -125,6 +131,7 @@ func HandleUpdateMovie(w http.ResponseWriter, r *http.Request) {
 	HandleGetMovies(w, r)
 }
 
+// HandleDeleteMovie -> delete handler
 func HandleDeleteMovie(w http.ResponseWriter, r *http.Request) {
 	movieID := strings.Replace(r.URL.Path, "/movie/", "", 1)
 
@@ -141,6 +148,7 @@ func HandleDeleteMovie(w http.ResponseWriter, r *http.Request) {
 	HandleGetMovies(w, r)
 }
 
+// HandleMethodIsNotAllowed -> handle not allowed method
 func HandleMethodIsNotAllowed(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusBadRequest)
 

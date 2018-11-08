@@ -11,6 +11,16 @@ import (
 	"github.com/tullur/rest/src/pkg"
 )
 
+func getPort() string {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	return ":" + port
+}
+
+// Run - start point
 func Run() {
 	stop := make(chan os.Signal, 1)
 
@@ -21,8 +31,10 @@ func Run() {
 	handler.HandleFunc("/movie/", pkg.Authantication(pkg.Logger(controller.HandleMovie)))
 	handler.HandleFunc("/movies/", pkg.Authantication(pkg.Logger(controller.HandleMovies)))
 
+	handler.Handle("/favicon.ico", http.NotFoundHandler())
+
 	s := &http.Server{
-		Addr:           ":8080",
+		Addr:           getPort(),
 		Handler:        handler,
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
