@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
 	"time"
 
 	"github.com/tullur/rest/src/pkg"
@@ -14,11 +16,14 @@ func index(w http.ResponseWriter, _ *http.Request) {
 }
 
 func main() {
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, os.Interrupt)
+
 	handler := http.NewServeMux()
 
 	handler.HandleFunc("/", pkg.Logger(index))
 
-	s := http.Server{
+	s := &http.Server{
 		Addr:           ":8080",
 		Handler:        handler,
 		ReadTimeout:    10 * time.Second,
@@ -27,6 +32,10 @@ func main() {
 		MaxHeaderBytes: 1 << 20,
 	}
 
-	log.Println("Listening on port", s.Addr)
-	log.Println(s.ListenAndServe())
+	go func() {
+		log.Println("Listening on port", s.Addr)
+		log.Fatal(s.ListenAndServe())
+	}()
+
+	pkg.Graceful(s, 5*time.Second)
 }
