@@ -7,8 +7,9 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/tullur/rest/src/controller"
-	"github.com/tullur/rest/src/pkg"
+	"github.com/tullur/GoREST-net-http/src/pkg"
+
+	"github.com/tullur/GoREST-net-http/src/controller"
 )
 
 func getPort() string {
