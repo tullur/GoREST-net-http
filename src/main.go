@@ -1,8 +1,6 @@
 package main
 
-import (
-	"github.com/tullur/rest/src/server"
-)
+import "github.com/tullur/GoREST-net-http/src/server"
 
 func main() {
 	server.Run()
